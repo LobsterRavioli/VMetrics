@@ -1,6 +1,6 @@
 # VMetrics: Monitoraggio distribuito su Azure
 
-**VMetrics** è un'architettura a 3 nodi progettata per il monitoraggio di applicazioni e infrastruttura, utilizzando **Prometheus**, **Grafana**, e una VM con una webapp metrica (es. app Python o altro linguaggio) che espone metriche Prometheus.
+**VMetrics** è un'architettura a 3 nodi progettata per il monitoraggio di applicazioni e infrastruttura, utilizzando **Prometheus**, **Grafana**, e una VM.
 
 ---
 
