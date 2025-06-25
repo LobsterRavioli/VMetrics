@@ -24,7 +24,7 @@
 
 - **VM1 (Grafana)**: visualizza i dati raccolti da Prometheus.
 - **VM2 (Prometheus)**: effettua scraping delle metriche da uno o più target (tra cui la VM3).
-- **VM3 (App)**: espone metriche Prometheus su `/metrics` (es. Flask app, Node.js, Go, nginx con exporter, ecc.).
+- **VM3 (App)**: espone metriche Prometheus su `/metrics`.
 
 ---
 
