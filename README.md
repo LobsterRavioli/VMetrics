@@ -14,7 +14,7 @@ The architecture is composed of three virtual machines (VMs), each with a distin
 
 - **VM1 (Grafana)**: Handles visualization of metrics collected by Prometheus.
 - **VM2 (Prometheus)**: Periodically scrapes metrics from registered endpoints.
-- **VM3 (Monitored App)**: Exposes metrics in Prometheus-compatible format.
+- **VM3 (Monitored VM)**: Exposes metrics in Prometheus-compatible format.
 
 ---
 
