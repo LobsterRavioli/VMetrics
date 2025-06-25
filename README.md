@@ -74,3 +74,6 @@ The architecture is composed of three virtual machines (VMs), each with a distin
 - Live dashboards with real-time metrics ingestion.
 - End-to-end pipeline validation from metric generation to visualization.
 - Comprehensive documentation, replicable across cloud or on-premise environments.
+
+![Descrizione alternativa](assets/dashboard.png)
+
