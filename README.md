@@ -41,8 +41,7 @@
 ### 1. VM3 – App con metriche
 
 Espone un endpoint `/metrics` compatibile con Prometheus. Può essere:
-- Una Flask app con `prometheus_client` (come quella che hai già).
-- Node Exporter / nginx exporter / custom exporter.
+- Node Exporter.
 
 Verifica che su `http://<IP_VM3>:PORT/metrics` risponda correttamente.
 
