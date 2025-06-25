@@ -1,142 +1,76 @@
-# VMetrics: Monitoraggio distribuito su Azure
+# 🛰️ VMetrics: Distributed Monitoring Architecture on Azure
 
-**VMetrics** è un'architettura a 3 nodi progettata per il monitoraggio di applicazioni e infrastruttura, utilizzando **Prometheus**, **Grafana**, e una VM.
+**VMetrics** is a distributed monitoring solution built on a three-tier architecture, designed for scalable cloud environments. The system integrates **Prometheus** for metrics collection, **Grafana** for visualization, and a third component that exposes metrics via a standard `/metrics` endpoint.
+
+This project was developed and tested on the **Azure** cloud platform, simulating a production-like multi-node environment.
 
 ---
 
-## 🏗️ Architettura
+## 🏗️ System Architecture
+
+The architecture is composed of three virtual machines (VMs), each with a distinct role:
 
 ```
 +------------------+
-|     Grafana      |   <-- VM1: Visualizzazione
+|     Grafana      |   <-- VM1: Visualization Layer
 +------------------+
          |
          v
 +------------------+
-|    Prometheus    |   <-- VM2: Raccolta metriche
+|    Prometheus    |   <-- VM2: Metrics Collection
 +------------------+
          |
          v
 +------------------+
-|    App Metriche  |   <-- VM3: Espone /metrics
+|  Metrics App/Node|   <-- VM3: Exposes /metrics endpoint
 +------------------+
 ```
 
-- **VM1 (Grafana)**: visualizza i dati raccolti da Prometheus.
-- **VM2 (Prometheus)**: effettua scraping delle metriche da uno o più target (tra cui la VM3).
-- **VM3 (App)**: espone metriche Prometheus su `/metrics`.
+- **VM1 (Grafana)**: Handles visualization of metrics collected by Prometheus.
+- **VM2 (Prometheus)**: Periodically scrapes metrics from registered endpoints.
+- **VM3 (Monitored App)**: Exposes metrics in Prometheus-compatible format.
 
 ---
 
-## 🔧 Prerequisiti
+## ⚙️ Technology Stack
 
-- Tre macchine virtuali (o container) su Azure (o altro cloud).
-- Porte aperte tra VM (es. 9090 per Prometheus, 3000 per Grafana, 9100+ per exporters).
-- DNS o IP statici per ciascuna VM.
-
----
-
-## ⚙️ Setup Dettagliato
-
-### 1. VM3 – App con metriche
-
-Espone un endpoint `/metrics` compatibile con Prometheus. Può essere:
-- Node Exporter.
-
-Verifica che su `http://<IP_VM3>:PORT/metrics` risponda correttamente.
-
-### 2. VM2 – Prometheus
-
-#### Installazione:
-
-```bash
-wget https://github.com/prometheus/prometheus/releases/download/v2.52.0/prometheus-2.52.0.linux-amd64.tar.gz
-tar -xzf prometheus-*.tar.gz
-cd prometheus-*/
-```
-
-#### Configurazione (`prometheus.yml`):
-
-```yaml
-global:
-  scrape_interval: 15s
-
-scrape_configs:
-  - job_name: 'vmetrics-app'
-    static_configs:
-      - targets: ['<IP_VM3>:<PORT>']
-```
-
-#### Avvio Prometheus:
-
-```bash
-./prometheus --config.file=prometheus.yml
-```
-
-Assicurati che Prometheus sia raggiungibile da Grafana su `http://<IP_VM2>:9090`.
+- **Prometheus**: Time-series metrics collection engine.
+- **Grafana**: Visualization and dashboard platform.
+- **Azure VM**: Each component is hosted on an individual virtual machine.
+- **Node Exporter / Custom App**: Used for metrics exposition.
 
 ---
 
-### 3. VM1 – Grafana
+## 🎯 Project Objectives
 
-#### Installazione (su Debian/Ubuntu):
-
-```bash
-sudo apt-get install -y software-properties-common
-sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
-wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
-sudo apt-get update
-sudo apt-get install grafana
-```
-
-#### Avvio:
-
-```bash
-sudo systemctl start grafana-server
-sudo systemctl enable grafana-server
-```
-
-#### Accesso:
-
-- URL: `http://<IP_VM1>:3000`
-- Default login: admin / admin
-
-#### Aggiunta sorgente Prometheus:
-
-1. Vai su **Settings → Data Sources**
-2. Aggiungi nuova → Tipo: Prometheus
-3. URL: `http://<IP_VM2>:9090`
-4. Salva e testa
+- **Distributed monitoring**: Clear separation between data collection, visualization, and metrics generation.
+- **Scalability**: Each component can be independently scaled.
+- **Security-aware**: Implements firewall rules, SSL certificates, authentication, and network segmentation.
+- **Cloud-native observability**: Leverages widely adopted DevOps and SRE tools.
 
 ---
 
-## 📊 Dashboard consigliata
+## 🔍 Key Features
 
-Puoi:
-- Importare una dashboard personalizzata (JSON).
-- Oppure usare template Grafana:
-  - ID Dashboard per Flask: `11074`
-  - ID Dashboard per Node Exporter: `1860`
-
----
-
-## 🔐 Sicurezza (opzionale ma consigliata)
-
-- Usa Azure NSG per limitare accesso per IP.
-- Attiva HTTPS tramite Nginx + Certbot (Grafana/Prometheus).
-- Autenticazione su Prometheus (via reverse proxy).
-- SSH con keypair solo da IP affidabili.
+- **Dynamic Prometheus configuration** to scrape from multiple targets.
+- **Customizable Grafana dashboards**, supports existing templates.
+- **Health checks and endpoint validation** via `/metrics` endpoint.
+- **Security best practices**: NSG rules, SSH keypair access, HTTPS with reverse proxy.
 
 ---
 
-## 🧪 Test rapido
+## 📈 Use Cases
 
-1. Visita `http://<IP_VM3>:PORT/metrics` → endpoint risponde?
-2. Visita `http://<IP_VM2>:9090` → vedi job attivo?
-3. Visita `http://<IP_VM1>:3000` → dashboard aggiornata?
+- **Microservice monitoring** in containerized or bare-metal environments.
+- **Operational dashboards** for DevOps and SRE teams.
+- **Scalability testing** on public cloud providers (Azure, AWS, etc.).
+- **Production environment simulation** for academic or enterprise proof-of-concept projects.
 
 ---
 
-## 📄 Licenza
+## ✅ Outcomes
 
-MIT – Usalo, modificalo e condividilo liberamente.
+- Full multi-node setup successfully deployed on Azure.
+- Live dashboards with real-time metrics ingestion.
+- End-to-end pipeline validation from metric generation to visualization.
+- Comprehensive documentation, replicable across cloud or on-premise environments.
