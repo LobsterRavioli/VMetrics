@@ -10,21 +10,7 @@ This project was developed and tested on the **Azure** cloud platform, simulatin
 
 The architecture is composed of three virtual machines (VMs), each with a distinct role:
 
-```
-+------------------+
-|     Grafana      |   <-- VM1: Visualization Layer
-+------------------+
-         |
-         v
-+------------------+
-|    Prometheus    |   <-- VM2: Metrics Collection
-+------------------+
-         |
-         v
-+------------------+
-|  Metrics App/Node|   <-- VM3: Exposes /metrics endpoint
-+------------------+
-```
+![Architettura VMetrics](assets/vms_architecture.png)
 
 - **VM1 (Grafana)**: Handles visualization of metrics collected by Prometheus.
 - **VM2 (Prometheus)**: Periodically scrapes metrics from registered endpoints.

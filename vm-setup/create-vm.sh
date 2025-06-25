@@ -46,12 +46,15 @@ az network vnet create \
 echo "🔒 Creazione Network Security Group..."
 az network nsg create --resource-group "$RESOURCE_GROUP" --name "$NSG_NAME" --output none
 
+
 echo "🔓 Apertura porte SSH (22), Prometheus (9090), Grafana (3000)..."
 az network nsg rule create --resource-group "$RESOURCE_GROUP" --nsg-name "$NSG_NAME" \
     --name AllowSSH --protocol tcp --priority 1000 --destination-port-ranges 22 --access allow --direction inbound --output none
 
+
 az network nsg rule create --resource-group "$RESOURCE_GROUP" --nsg-name "$NSG_NAME" \
     --name AllowPrometheus --protocol tcp --priority 1010 --destination-port-ranges 9090 --access allow --direction inbound --output none
+
 
 az network nsg rule create --resource-group "$RESOURCE_GROUP" --nsg-name "$NSG_NAME" \
     --name AllowGrafana --protocol tcp --priority 1020 --destination-port-ranges 3000 --access allow --direction inbound --output none
