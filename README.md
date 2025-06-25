@@ -41,7 +41,7 @@ The architecture is composed of three virtual machines (VMs), each with a distin
 - **Dynamic Prometheus configuration** to scrape from multiple targets.
 - **Customizable Grafana dashboards**, supports existing templates.
 - **Health checks and endpoint validation** via `/metrics` endpoint.
-- **Security best practices**: NSG rules, SSH keypair access, HTTPS with reverse proxy.
+- **Security best practices**: NSG rules, SSH keypair access.
 
 ---
 
